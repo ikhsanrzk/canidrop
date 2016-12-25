@@ -1,16 +1,17 @@
-const got = require('got');
 const R = require('ramda');
 const chalk = require('chalk');
+const config = require('./config');
+const Metrica = require('./lib/metrica');
 
-const oauthToken = require('./config.js').oauth;
-
-const apiUrl = 'https://api-metrika.yandex.ru/';
+const {oauth} = config;
+const metrica = new Metrica({oauth});
 
 const site = process.argv[2];
 const threshold = process.argv[3];
 
-fetchCounter()
-	.then(fetchBrowsersReport)
+metrica.getCounters()
+	.then(xs => xs.find(x => x.site === site).id)
+	.then(id => metrica.getReport(id))
 	.then(normalizeReport)
 	.then(report => {
 		const browsers = report.reduce((acc, record) => {
@@ -59,34 +60,6 @@ fetchCounter()
 	.catch(err => {
 		console.log(err.response.body);
 	});
-
-function fetchCounter() {
-	return got(`${apiUrl}management/v1/counters`, {
-		headers: {Authorization: `OAuth ${oauthToken}`},
-		json: true
-	}).then(response => {
-		const {counters} = response.body;
-		const counter = counters.find(x => x.site === site);
-
-		return counter.id;
-	});
-}
-
-function fetchBrowsersReport(counter) {
-	return got(`${apiUrl}stat/v1/data`, {
-		headers: {Authorization: `OAuth ${oauthToken}`},
-		json: true,
-		query: {
-			ids: counter,
-			// metrics: 'ym:s:visits',
-			// dimensions: 'ym:s:browser,ym:s:browserAndVersion',
-			date1: '7daysAgo',
-			date2: 'today',
-			preset: 'tech_browsers',
-			limit: 100000
-		}
-	}).then(response => response.body);
-}
 
 function normalizeReport(report) {
 	const visits = R.zipObj(report.query.metrics, report.totals)['ym:s:visits'];
