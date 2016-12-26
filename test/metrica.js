@@ -1,6 +1,6 @@
-const test = require('ava');
-const proxyquire = require('proxyquire');
-const sinon = require('sinon');
+import test from 'ava';
+import proxyquire from 'proxyquire';
+import sinon from 'sinon';
 
 Object.assign(sinon.stub, {
 	resolvesTo(value) {

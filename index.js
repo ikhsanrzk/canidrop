@@ -1,9 +1,8 @@
-const R = require('ramda');
 const chalk = require('chalk');
-const config = require('./config');
+const {oauth} = require('./config');
 const Metrica = require('./lib/metrica');
+const {zipObj} = require('./lib/utils');
 
-const {oauth} = config;
 const metrica = new Metrica({oauth});
 
 const site = process.argv[2];
@@ -62,11 +61,11 @@ metrica.getCounters()
 	});
 
 function normalizeReport(report) {
-	const visits = R.zipObj(report.query.metrics, report.totals)['ym:s:visits'];
+	const visits = zipObj(report.query.metrics, report.totals)['ym:s:visits'];
 
 	const records = report.data.map(record => ({
-		segments: R.zipObj(report.query.dimensions, record.dimensions),
-		visits: R.zipObj(report.query.metrics, record.metrics)['ym:s:visits']
+		segments: zipObj(report.query.dimensions, record.dimensions),
+		visits: zipObj(report.query.metrics, record.metrics)['ym:s:visits']
 	}));
 
 	const browsers = records.map(version => ({
