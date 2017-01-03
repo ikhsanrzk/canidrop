@@ -4,6 +4,8 @@
 - soft threshold
 - config: filters, metrics
 – cache
+- author, license
 
 https://developers.google.com/admin-sdk/groups-settings/quickstart/nodejs
 https://www.npmjs.com/package/google-oauth2-cli
+ask counters

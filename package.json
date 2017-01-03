@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "xo && ava"
+    "test": "xo && nyc --all ava",
+    "report": "nyc report --reporter=html"
   },
   "author": "",
   "license": "ISC",
@@ -15,8 +16,12 @@
   },
   "devDependencies": {
     "ava": "^0.17.0",
+    "nyc": "^10.0.0",
     "proxyquire": "^1.7.10",
     "sinon": "^1.17.6",
     "xo": "^0.17.1"
+  },
+  "nyc": {
+    "exclude": ["coverage", "test"]
   }
 }
