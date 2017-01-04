@@ -2,7 +2,7 @@ const {oauth} = require('./config');
 const Metrica = require('./lib/metrica');
 const {parse} = require('./lib/report');
 const {group} = require('./lib/browsers');
-const {extractOutput} = require('./lib/io');
+const {format} = require('./lib/io');
 
 const metrica = new Metrica({oauth});
 
@@ -15,8 +15,8 @@ metrica.getCounters()
 	.then(report => {
 		const records = parse(report);
 		const browsers = group(records, threshold);
-		const output = extractOutput(browsers, threshold);
+		const lines = format(browsers, threshold);
 
-		output.forEach(line => console.log(line));
+		lines.forEach(line => console.log(line));
 	})
 	.catch(err => console.log(err));
