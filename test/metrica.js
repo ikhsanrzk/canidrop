@@ -8,6 +8,12 @@ Object.assign(sinon.stub, {
 	}
 });
 
+const oauthProvider = {
+	getToken: () => {
+		return Promise.resolve('token');
+	}
+};
+
 test('getCounters', async t => {
 	const got = sinon.stub();
 
@@ -18,7 +24,7 @@ test('getCounters', async t => {
 	}).resolvesTo({body: {counters: 'boo'}});
 
 	const Metrica = proxyquire('../lib/metrica', {got});
-	const metrica = new Metrica({oauth: 'token'});
+	const metrica = new Metrica({oauthProvider});
 	const counters = await metrica.getCounters();
 
 	t.is(counters, 'boo');
@@ -40,7 +46,7 @@ test('getReport', async t => {
 	}).resolvesTo({body: 'boo'});
 
 	const Metrica = proxyquire('../lib/metrica', {got});
-	const metrica = new Metrica({oauth: 'token'});
+	const metrica = new Metrica({oauthProvider});
 	const report = await metrica.getReport(1);
 
 	t.is(report, 'boo');
