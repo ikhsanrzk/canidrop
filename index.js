@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const meow = require('meow');
 const Metrica = require('./lib/metrica');
 const oauthProvider = require('./lib/oauth');
