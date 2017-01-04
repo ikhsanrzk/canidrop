@@ -1,6 +1,6 @@
 {
   "name": "canidrop",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Tool to detect browser versions you should support",
   "main": "index.js",
   "scripts": {
