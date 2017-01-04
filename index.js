@@ -1,7 +1,8 @@
 const {oauth} = require('./config');
 const Metrica = require('./lib/metrica');
 const {parse} = require('./lib/report');
-const {extractBrowsers, extractVersions, extractOutput} = require('./lib/reducers');
+const {group} = require('./lib/browsers');
+const {extractOutput} = require('./lib/io');
 
 const metrica = new Metrica({oauth});
 
@@ -12,12 +13,9 @@ metrica.getCounters()
 	.then(xs => xs.find(x => x.site === site).id)
 	.then(id => metrica.getReport(id))
 	.then(report => {
-		const browsers = parse(report);
-		const relevantBrowsers = browsers.filter(({metrics}) => metrics.visits.percent >= threshold);
-
-		const _browsers = extractBrowsers(relevantBrowsers);
-		const versions = extractVersions(_browsers);
-		const output = extractOutput(versions, threshold);
+		const records = parse(report);
+		const browsers = group(records, threshold);
+		const output = extractOutput(browsers, threshold);
 
 		output.forEach(line => console.log(line));
 	})
