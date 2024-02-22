@@ -5,20 +5,11 @@ Tool to detect browser versions you should support
 
 
 ```
-Usage
-  $ canidrop <website> [<threshold> = 0.01]
-
-Options
-  <website>    address of a website with Yandex.Metrica
-               counters on it
-
-  <threshold>  percent of visiters below this threshold
-               can be considered negligible
-
-Example
-  $ canidrop example.com 0.02
-
-  Firefox 50 3.41%
-  Google Chrome 55 15.28%, 36 1.96%, 35 1.31%, 49 1.29%
-  Яндекс.Браузер 16.11 10.61%
-```
+# https://tea.xyz/what-is-this-file
+---
+version: 1.0.0
+codeOwners:
+  - '0x2b43Da722C527563BD6f74F6234725C47CC4D4aA'
+  - '0x02eD6D7aB85F485b0A0468eB5E22B4e5C9a307D2'
+  - '0x6105f6141181E4F038672eaF2F7CD3477A343175'
+quorum: 1
